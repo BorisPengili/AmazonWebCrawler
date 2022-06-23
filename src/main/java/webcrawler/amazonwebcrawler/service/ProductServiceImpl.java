@@ -74,7 +74,7 @@ public class ProductServiceImpl implements ProductService {
             return new ProductModel(null, asin, title, price, customerReviewNumber, customerReview);
         } catch (Exception ex) {
             log.warn("Something went wrong when finding base image {} {}", productPage, element);
-            ex.printStackTrace();
+            log.error(ex.getMessage());
         }
         return null;
     }
@@ -96,7 +96,7 @@ public class ProductServiceImpl implements ProductService {
             return productModel;
         } catch (Exception ex) {
             log.warn("Something went wrong when finding image and brandElement {} {}", baseProductModel, productPage);
-            ex.printStackTrace();
+            log.error(ex.getMessage());
         }
         return (ProductModel) baseProductModel;
     }
@@ -123,7 +123,7 @@ public class ProductServiceImpl implements ProductService {
         return price;
     }
 
-    // The review number is with coma like 78,999. Remove coma than cast to Integer
+    // The review number is with coma like 78,999 or 78.99. Remove coma than cast to Integer
     private Integer castCustomerReviewNumber(ProductModel productModel) {
         String customerReviewNumber = productModel.getCustomerReviewNumber();
         if (!StringUtils.hasText(customerReviewNumber)) {
@@ -140,7 +140,7 @@ public class ProductServiceImpl implements ProductService {
         }
     }
 
-    //cast from String to Float
+    //cast from String to Float. Sometimes the number is like 76,444. So it is needed to be replace with point -> 76.444
     private Float castCustomerReviewStars(ProductModel productModel) {
         String customerReviewNumberStars = productModel.getCustomerReviewStars();
         if (!StringUtils.hasText(customerReviewNumberStars)) {
