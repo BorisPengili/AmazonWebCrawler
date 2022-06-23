@@ -1,0 +1,18 @@
+services:
+
+  mongo:
+    image: mongo
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: root
+      MONGO_INITDB_DATABASE: amazonwebcrawler
+      MONGO_INITDB_AUTHENTICATION_DATABASE: admin
+    ports:
+      - 27017:27017
+
+
+  sonarqube:
+     image: sonarqube:8.9-community
+     ports:
+        - "9000:9000"
